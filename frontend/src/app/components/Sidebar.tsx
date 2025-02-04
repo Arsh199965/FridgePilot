@@ -48,7 +48,7 @@ const Sidebar = () => {
   return (
     <div
       className={`
-        h-screen bg-neutral-900 shadow-2xl transition-all duration-500 ease-in-out relative
+        h-screen bg-neutral-900 shadow-2xl  transition-all duration-500 ease-in-out sticky top-0
         border-r border-gray-800/50
         ${isExpanded ? "w-72" : "w-20"}
         flex flex-col
@@ -78,15 +78,15 @@ const Sidebar = () => {
         {isExpanded ? (
           <div className="flex items-center transition-all duration-[0.3s] ease-in-out space-x-3">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-emerald-400 to-teal-500 flex items-center justify-center">
-              <span className="text-white font-bold">P</span>
+              <span className="text-white font-bold">S</span>
             </div>
             <h1 className="text-xl font-bold bg-gradient-to-r from-emerald-400 to-teal-500 text-transparent bg-clip-text">
-              Pantry Pal
+              Shelf Sensei
             </h1>
           </div>
         ) : (
           <div className="w-8 h-8 rounded-lg bg-gradient-to-r transition-all duration-500 ease-in-out from-emerald-400 to-teal-500 flex items-center justify-center">
-            <span className="text-white font-bold">P</span>
+            <span className="text-white font-bold">S</span>
           </div>
         )}
       </div>
