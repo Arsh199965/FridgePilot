@@ -61,19 +61,23 @@ const AuthPage: NextPage = () => {
     setSuccess(false);
 
     try {
-      const endpoint = isLogin ? 'http://127.0.0.1:5000/login' : 'http://127.0.0.1:5000/signup';
+      const endpoint = isLogin ? 'http://127.0.0.1:5000/auth/login' : 'http://127.0.0.1:5000/auth/signup';
       const body = {
+        user_name: name,
         user_id: email,
         password: password,
       };
 
       const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
 
-      if (response.ok) {
+        if (response.ok) {
+            if (isLogin) {
+                localStorage.setItem("user_id", email);
+            }
         setSuccess(true);
         isLogin? router.push('/pantry') : toast.success("Signup Successful")
         
