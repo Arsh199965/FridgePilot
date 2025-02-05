@@ -77,6 +77,9 @@ const RecipesPage = () => {
           <p className="text-neutral-400">
             Discover recipes based on your pantry items
           </p>
+          <p className="text-neutral-400 text-[0.77rem]">
+            (Priority to expiring items)
+          </p>
         </div>
 
         <div className="relative mb-8">
