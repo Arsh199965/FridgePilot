@@ -117,7 +117,7 @@ const AuthPage: NextPage = () => {
               animate={{ opacity: 1 }}
               className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent mb-2"
             >
-              Welcome to Shelf Sensei
+              Welcome to Fridge Pilot
             </motion.h2>
             <p className="text-neutral-400">
               {isLogin ? 'Sign in to your account' : 'Create your account'}

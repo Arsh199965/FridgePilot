@@ -78,15 +78,15 @@ const Sidebar = () => {
         {isExpanded ? (
           <div className="flex items-center transition-all duration-[0.3s] ease-in-out space-x-3">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-emerald-400 to-teal-500 flex items-center justify-center">
-              <span className="text-white font-bold">S</span>
+              <span className="text-white font-bold">F</span>
             </div>
             <h1 className="text-xl font-bold bg-gradient-to-r from-emerald-400 to-teal-500 text-transparent bg-clip-text">
-              Shelf Sensei
+              Fridge Pilot
             </h1>
           </div>
         ) : (
           <div className="w-8 h-8 rounded-lg bg-gradient-to-r transition-all duration-500 ease-in-out from-emerald-400 to-teal-500 flex items-center justify-center">
-            <span className="text-white font-bold">S</span>
+            <span className="text-white font-bold">F</span>
           </div>
         )}
       </div>
