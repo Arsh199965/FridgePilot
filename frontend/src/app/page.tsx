@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { MenuIcon, X, ChevronRight, Compass, Shield, Sparkles } from 'lucide-react';
+import { MenuIcon, X, ChevronRight, Compass, Shield, Sparkles, Linkedin, Github } from 'lucide-react';
 import type { NextPage } from 'next';
 import Navbar from './components/Navbar';
 import Link from 'next/link';
@@ -45,8 +45,9 @@ const Home: NextPage = () => {
               Transform Your Kitchen Experience
             </h1>
             <p className="text-xl text-neutral-400 mb-8 leading-relaxed">
-              Harness the power of AI to revolutionize your pantry management,
-              reduce waste, and discover amazing recipes tailored just for you.
+              Harness the power of AI to revolutionize your fridge and shelf
+              management, reduce waste, and discover amazing recipes tailored
+              just for you.
             </p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -60,9 +61,6 @@ const Home: NextPage = () => {
                   <ChevronRight className="inline ml-2 group-hover:translate-x-1 transition-transform" />
                 </button>
               </Link>
-              <button className="w-full sm:w-auto px-8 py-3 bg-neutral-800 rounded-lg font-medium hover:bg-neutral-700 transition-all border border-neutral-700">
-                Watch Demo
-              </button>
             </motion.div>
           </motion.div>
         </div>
@@ -151,64 +149,47 @@ const Home: NextPage = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section ref={ctaRef} className="py-24 relative overflow-hidden">
-        <motion.div
-          animate={{
-            background: [
-              "radial-gradient(circle at center, rgba(16,185,129,0.1), transparent 70%)",
-              "radial-gradient(circle at center, rgba(20,184,166,0.1), transparent 70%)",
-            ],
-          }}
-          transition={{
-            duration: 5,
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
-          className="absolute inset-0"
-        />
-        <div className="container mx-auto px-4 relative">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={
-              isCtaInView
-                ? { opacity: 1, scale: 1 }
-                : { opacity: 0, scale: 0.95 }
-            }
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="text-center"
-          >
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={
-                isCtaInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
-              }
-              transition={{ delay: 0.2 }}
-              className="text-4xl font-bold mb-6"
-            >
-              Ready to Transform Your Kitchen?
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={
-                isCtaInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
-              }
-              transition={{ delay: 0.3 }}
-              className="text-xl text-neutral-400 mb-8 max-w-2xl mx-auto"
-            >
-              Join thousands of happy users who have revolutionized their
-              cooking experience with PantryPal.
-            </motion.p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-lg font-medium hover:from-emerald-500 hover:to-teal-500 transition-all"
-            >
-              Start Your Journey
-            </motion.button>
-          </motion.div>
+
+      
+
+      {/* Simple Footer */}
+      <footer className="border-t border-neutral-800/50 bg-neutral-900/50 backdrop-blur-sm">
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                className="text-2xl"
+              >
+                🥘
+              </motion.div>
+              <span className="text-neutral-400">Fridge Pilot</span>
+            </div>
+
+            <div className="flex gap-6">
+              <Link
+                href="https://github.com/arsh199965"
+                target="_blank"
+                className="text-neutral-400 hover:text-emerald-400 transition-colors"
+              >
+                <Github className="w-5 h-5" />
+              </Link>
+              <Link
+                href="https://linkedin.com/in/arsh-ahmad"
+                target="_blank"
+                className="text-neutral-400 hover:text-emerald-400 transition-colors"
+              >
+                <Linkedin className="w-5 h-5" />
+              </Link>
+            </div>
+
+            <p className="text-sm text-neutral-500">
+              Made with 💚 by a Student Developer
+            </p>
+          </div>
         </div>
-      </section>
+      </footer>
     </div>
   );
 };

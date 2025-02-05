@@ -20,7 +20,7 @@ const Sidebar = () => {
           const userId = localStorage.getItem("user_id");
           setUserId(userId? userId: "");
         if (!userId) {
-          console.error("User ID not found");
+          console.log("User ID not found");
           return;
         }
         const response = await fetch(
@@ -32,7 +32,6 @@ const Sidebar = () => {
       getName();
     }, []);
   const menuItems = [
-    { title: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
     { title: "Pantry", icon: ShoppingBasket, path: "/pantry" },
     { title: "Alerts", icon: Bell, path: "/alerts" },
     { title: "Recipes", icon: ChefHat, path: "/recipes" },
@@ -40,8 +39,8 @@ const Sidebar = () => {
     ];
     // const userId = localStorage.getItem("user_id");
     
-    if (pathName === "/" || pathName === "/login" ) {
-      return <></>;   
+    if (pathName === "/" || pathName === "/login" || pathName === "/about") {
+      return <></>;
     }
     
 

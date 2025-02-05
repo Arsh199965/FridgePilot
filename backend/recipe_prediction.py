@@ -21,7 +21,9 @@ def get_user_pantry(user_id):
     cursor.execute(query, (user_id,))
     rows = cursor.fetchall()
     conn.close()
-    
+    if not rows:
+        return [], {}
+
     ingredients = []
     expiry_info = {}
     today = datetime.today()

@@ -37,7 +37,7 @@ const RecipesPage = () => {
           `http://127.0.0.1:5000/recipe/get-recipes?user_id=${userId}`
         );
         const data = await response.json();
-        setRecipes(data.recipes);
+        if(data.recipes) setRecipes(data.recipes);
       } catch (error) {
         console.error("Error fetching recipes:", error);
       }

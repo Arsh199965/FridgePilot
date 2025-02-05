@@ -125,15 +125,12 @@ const AuthPage: NextPage = () => {
           </div>
 
           {/* Social Login */}
-          <div className="px-8 flex gap-4 mb-6">
-            <button className="flex-1 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 py-3 rounded-lg flex items-center justify-center gap-2 transition-colors">
+          <div className="px-8 flex flex-col justify-center items-center gap-4 mb-6">
+            <button className="px-8 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 py-3 rounded-lg flex items-center justify-center gap-3 transition-colors">
               <GoogleIcon size={18} />
               Google
             </button>
-            <button className="flex-1 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 py-3 rounded-lg flex items-center justify-center gap-2 transition-colors">
-              <GithubIcon size={18} />
-              GitHub
-            </button>
+            <p className='text-xs -mt-3 font-light text-neutral-400'>Coming Soon</p>
           </div>
 
           <div className="px-8 flex items-center gap-4 mb-6">
