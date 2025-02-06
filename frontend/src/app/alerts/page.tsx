@@ -27,7 +27,7 @@ const AlertsPage = () => {
 
         // Process items to create alerts
         const alertItems = data.data
-          .map((item: any) => ({
+          .map((item: AlertItem) => ({
             ...item,
             daysUntilExpiry: Math.ceil(
               (new Date(item.expiryDate).getTime() - new Date().getTime()) /

@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { MenuIcon, X, ChevronRight, Star, Shield, Zap } from 'lucide-react';
+import { MenuIcon, X } from 'lucide-react';
 import Link from 'next/link';
 const Navbar = () => {
       const [isMenuOpen, setIsMenuOpen] = useState(false);

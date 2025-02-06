@@ -1,17 +1,20 @@
-'use client'
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Lock, User, GithubIcon, ArrowRight, Check } from 'lucide-react';
-import type { NextPage } from 'next';
-import { useRouter } from 'next/navigation';
-import toast, {  Toaster } from 'react-hot-toast';
+"use client";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Mail, Lock, User, ArrowRight, Check } from "lucide-react";
+import type { NextPage } from "next";
+import { useRouter } from "next/navigation";
+import toast, { Toaster } from "react-hot-toast";
 // Custom Google Icon component
-const GoogleIcon: React.FC<{ size?: number; className?: string }> = ({ size = 18, className = "" }) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    viewBox="0 0 24 24" 
-    width={size} 
-    height={size} 
+const GoogleIcon: React.FC<{ size?: number; className?: string }> = ({
+  size = 18,
+  className = "",
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={size}
+    height={size}
     className={className}
     fill="currentColor"
   >
@@ -30,7 +33,13 @@ interface InputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input: React.FC<InputProps> = ({ icon, type, placeholder, value, onChange }) => (
+const Input: React.FC<InputProps> = ({
+  icon,
+  type,
+  placeholder,
+  value,
+  onChange,
+}) => (
   <div className="relative">
     <div className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400">
       {icon}
@@ -46,22 +55,24 @@ const Input: React.FC<InputProps> = ({ icon, type, placeholder, value, onChange 
 );
 
 const AuthPage: NextPage = () => {
- const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const [isLogin, setIsLogin] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
-  const router = useRouter()
+  const [error, setError] = useState("");
+  const router = useRouter();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setError('');
+    setError("");
     setSuccess(false);
 
     try {
-      const endpoint = isLogin ? 'http://127.0.0.1:5000/auth/login' : 'http://127.0.0.1:5000/auth/signup';
+      const endpoint = isLogin
+        ? "http://127.0.0.1:5000/auth/login"
+        : "http://127.0.0.1:5000/auth/signup";
       const body = {
         user_name: name,
         user_id: email,
@@ -74,29 +85,28 @@ const AuthPage: NextPage = () => {
         body: JSON.stringify(body),
       });
 
-        if (response.ok) {
-            if (isLogin) {
-                localStorage.setItem("user_id", email);
-            }
+      if (response.ok) {
+        if (isLogin) {
+          localStorage.setItem("user_id", email);
+        }
         setSuccess(true);
-        isLogin? router.push('/pantry') : toast.success("Signup Successful")
-        
-          
+        if (isLogin) router.push("/pantry");
+        else toast.success("Signup Successful");
       } else {
         const data = await response.json();
-        setError(data.message || 'An error occurred');
-        toast.error(error)
+        setError(data.message || "An error occurred");
+        toast.error(error);
       }
     } catch (err) {
-      setError('Network error');
+      setError("Network error: " + err);
     }
 
     setIsLoading(false);
   };
 
   return (
-      <div className="min-h-screen bg-neutral-900 text-neutral-100 flex items-center justify-center p-4">
-      <Toaster/>
+    <div className="min-h-screen bg-neutral-900 text-neutral-100 flex items-center justify-center p-4">
+      <Toaster />
       {/* Background Effects */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.1),transparent_50%)]"></div>
@@ -120,7 +130,7 @@ const AuthPage: NextPage = () => {
               Welcome to Fridge Pilot
             </motion.h2>
             <p className="text-neutral-400">
-              {isLogin ? 'Sign in to your account' : 'Create your account'}
+              {isLogin ? "Sign in to your account" : "Create your account"}
             </p>
           </div>
 
@@ -130,7 +140,9 @@ const AuthPage: NextPage = () => {
               <GoogleIcon size={18} />
               Google
             </button>
-            <p className='text-xs -mt-3 font-light text-neutral-400'>Coming Soon</p>
+            <p className="text-xs -mt-3 font-light text-neutral-400">
+              Coming Soon
+            </p>
           </div>
 
           <div className="px-8 flex items-center gap-4 mb-6">
@@ -145,7 +157,7 @@ const AuthPage: NextPage = () => {
               {!isLogin && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
+                  animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
                   className="overflow-hidden"
                 >
@@ -207,7 +219,7 @@ const AuthPage: NextPage = () => {
                     exit={{ opacity: 0 }}
                     className="flex items-center gap-2"
                   >
-                    {isLogin ? 'Sign In' : 'Create Account'}
+                    {isLogin ? "Sign In" : "Create Account"}
                     <ArrowRight size={18} />
                   </motion.div>
                 )}
@@ -223,7 +235,7 @@ const AuthPage: NextPage = () => {
                 onClick={() => setIsLogin(!isLogin)}
                 className="ml-2 text-emerald-400 hover:text-emerald-300 transition-colors"
               >
-                {isLogin ? 'Sign up' : 'Sign in'}
+                {isLogin ? "Sign up" : "Sign in"}
               </button>
             </p>
           </div>

@@ -6,9 +6,6 @@ import {
   Package,
   Bell,
   LogOut,
-  Settings,
-  Save,
-  UserCircle,
   AlertTriangle,
 } from "lucide-react";
 interface AlertItem {
@@ -19,14 +16,14 @@ interface AlertItem {
 }
 const ProfilePage = () => {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState({
     name: "",
     email: "",
     itemCount: 0,
     alertCount: 0,
   });
-  const [isEditing, setIsEditing] = useState(false);
+  // const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [alerts, setAlerts] = useState(0);
@@ -48,7 +45,7 @@ const ProfilePage = () => {
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
-      setLoading(false);
+    
     };
     fetchName();
 
@@ -65,7 +62,7 @@ const ProfilePage = () => {
         // Process items to create alerts
         setTotalItems(data.data.length);
         const alertItems = data.data
-          .map((item: any) => ({
+          .map((item: AlertItem) => ({
             ...item,
             daysUntilExpiry: Math.ceil(
               (new Date(item.expiryDate).getTime() - new Date().getTime()) /
@@ -82,7 +79,6 @@ const ProfilePage = () => {
       } catch (error) {
         console.error("Error fetching alerts:", error);
       }
-      setLoading(false);
     };
 
     fetchAlerts();
@@ -139,7 +135,6 @@ const ProfilePage = () => {
       console.error("Error updating profile:", error);
       alert("An error occurred while updating profile.");
     }
-    setIsEditing(false);
   };
 
   const handleDeleteAccount = async () => {

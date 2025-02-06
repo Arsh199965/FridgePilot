@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Search, ChefHat, Clock, BookOpen, ChevronDown, ChevronUp } from "lucide-react";
+import { Search, ChefHat, BookOpen, ChevronDown, ChevronUp } from "lucide-react";
 
 interface Recipe {
   title: string;

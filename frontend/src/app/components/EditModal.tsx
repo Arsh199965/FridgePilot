@@ -1,17 +1,10 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Plus,
-  Search,
-  Trash2,
-  Edit2,
   X,
-  Calendar,
-  Package,
   Save,
 } from "lucide-react";
-import type { NextPage } from "next";
 
 interface PantryItem {
   id: string;

@@ -1,7 +1,7 @@
 'use client';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { MenuIcon, X, ChevronRight, Compass, Shield, Sparkles, Linkedin, Github } from 'lucide-react';
+import { ChevronRight, Compass, Shield, Sparkles, Linkedin, Github } from 'lucide-react';
 import type { NextPage } from 'next';
 import Navbar from './components/Navbar';
 import Link from 'next/link';
@@ -15,13 +15,9 @@ const floatingAnimation = {
 };
 
 const Home: NextPage = () => {
-  const heroRef = useRef(null);
   const featuresRef = useRef(null);
-  const ctaRef = useRef(null);
   
-  const isHeroInView = useInView(heroRef, { once: false, margin: "-100px" });
   const isFeaturesInView = useInView(featuresRef, { once: false, margin: "-100px" });
-  const isCtaInView = useInView(ctaRef, { once: false, margin: "-100px" });
 
   return (
     <div className="min-h-screen bg-neutral-900 text-neutral-100">

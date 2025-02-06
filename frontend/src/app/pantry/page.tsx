@@ -6,10 +6,8 @@ import {
   Search,
   Trash2,
   Edit2,
-  X,
   Calendar,
   Package,
-  Save,
 } from "lucide-react";
 import type { NextPage } from "next";
 import EditModal from "../components/EditModal";
@@ -197,7 +195,9 @@ const PantryPage: NextPage = () => {
                           <Calendar size={14} />
                           Added: {item.addedDate} | Expires: {item.expiryDate}
                         </p>
-                        {item.notes && <p className="italic">"{item.notes}"</p>}
+                        {item.notes && (
+                          <p className="italic">&quot;{item.notes}&quot;</p>
+                        )}
                       </div>
                     </div>
                   </div>

@@ -5,9 +5,6 @@ import {
   Github,
   Linkedin,
   Mail,
-  Code,
-  Brain,
-  Database,
   Sparkles,
 } from "lucide-react";
 import Navbar from "../components/Navbar";
@@ -39,8 +36,8 @@ const AboutPage = () => {
   ];
 
   return (
-      <div className="min-h-screen bg-neutral-900 text-neutral-100 relative overflow-hidden">
-        <Navbar />
+    <div className="min-h-screen bg-neutral-900 text-neutral-100 relative overflow-hidden">
+      <Navbar />
       {/* Animated background gradients */}
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.1),transparent_50%)] -z-10" />
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(20,184,166,0.1),transparent_50%)] -z-10" />
@@ -85,10 +82,10 @@ const AboutPage = () => {
                     About the Developer
                   </h2>
                   <p className="text-neutral-400 mb-6">
-                    Hi! I'm a passionate developer who loves building
+                    Hi! I&apos;m a passionate developer who loves building
                     interesting web solutions. As an AI/ML enthusiast and
-                    bachelor's student, I enjoy exploring the intersection of
-                    user-friendly design and cutting-edge technology.
+                    bachelor&apos;s student, I enjoy exploring the intersection
+                    of user-friendly design and cutting-edge technology.
                   </p>
                   <div className="flex gap-4 justify-center md:justify-start">
                     <motion.a
@@ -134,7 +131,7 @@ const AboutPage = () => {
             >
               {technologies.map((tech, index) => (
                 <motion.span
-                  key={tech}
+                  key={index}
                   variants={item}
                   whileHover={{ scale: 1.05 }}
                   className="px-4 py-2 rounded-full bg-neutral-800/40 border border-neutral-700/50 text-neutral-300"
