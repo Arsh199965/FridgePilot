@@ -89,17 +89,20 @@ const AuthPage: NextPage = () => {
         body: JSON.stringify(body)
       });
 
+      const data = await response.json();
+      
       if (response.ok) {
         if (isLogin) {
           localStorage.setItem("user_id", email);
+          setSuccess(true);
+          router.push("/pantry");
+        } else {
+          setSuccess(true);
+          toast.success("Signup Successful");
         }
-        setSuccess(true);
-        if (isLogin) router.push("/pantry");
-        else toast.success("Signup Successful");
       } else {
-        const data = await response.json();
-        setError(data.message || "An error occurred");
-        toast.error(error);
+        setError(data.message || "Request failed");
+        toast.error(data.message || "Request failed");
       }
     } catch (err) {
       setError("Network error: " + err);

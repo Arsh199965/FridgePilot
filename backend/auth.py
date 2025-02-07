@@ -1,15 +1,14 @@
-from flask import Flask
-from flask import Blueprint, request, jsonify
+from flask import Flask, Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from db import get_db_connection
-from flask_cors import CORS
-# import os
 
 auth_bp = Blueprint("auth", __name__)
 
-
-@auth_bp.route("/signup", methods=["POST"])
+@auth_bp.route("/signup", methods=["POST", "OPTIONS"])
 def signup():
+    if request.method == "OPTIONS":
+        return jsonify({})
+
     data = request.get_json()
     user_name = data.get("user_name")
     user_id = data.get("user_id")
@@ -34,8 +33,11 @@ def signup():
     finally:
         conn.close()
 
-@auth_bp.route("/login", methods=["POST"])
+@auth_bp.route("/login", methods=["POST", "OPTIONS"])
 def login():
+    if request.method == "OPTIONS":
+        return jsonify({})
+
     data = request.get_json()
     user_id = data.get("user_id")
     password = data.get("password")
@@ -51,4 +53,5 @@ def login():
 
     if row and check_password_hash(row[0], password):
         return jsonify({"message": "Login successful"}), 200
+    
     return jsonify({"message": "Invalid credentials"}), 401
