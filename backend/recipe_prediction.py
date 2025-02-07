@@ -8,9 +8,6 @@ recipe_bp = Blueprint('recipe_bp', __name__)
 
 def get_user_pantry(user_id):
     """
-    Fetch pantry ingredients and their expiry info from the SQLite database.
-    Database: pantrypal.db, table: pantry_items.
-    expiry_date is stored as text ("YYYY-MM-DD").
     Returns:
       - ingredients: list of item names.
       - expiry_info: dict mapping item_name to days until expiry.
