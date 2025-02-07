@@ -77,7 +77,7 @@ const ProfilePage = () => {
     };
 
     fetchAlerts();
-  }, []);
+  });
 
   const getInitials = (name: string) => {
     return name

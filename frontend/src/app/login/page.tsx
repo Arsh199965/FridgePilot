@@ -73,8 +73,8 @@ const AuthPage: NextPage = () => {
 
     try {
       const endpoint = isLogin
-        ? `${baseUrl}/auth/login` 
-        : `${baseUrl}/auth/signup` 
+        ? `${baseUrl}/auth/login`
+        : `${baseUrl}/auth/signup`
       const body = {
         user_name: name,
         user_id: email,
@@ -83,14 +83,14 @@ const AuthPage: NextPage = () => {
 
       const response = await fetch(endpoint, {
         method: "POST",
-        headers: { 
+        headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(body)
       });
 
       const data = await response.json();
-      
+
       if (response.ok) {
         if (isLogin) {
           localStorage.setItem("user_id", email);
@@ -107,7 +107,7 @@ const AuthPage: NextPage = () => {
     } catch (err) {
       setError("Network error: " + err);
     }
-
+    console.error(error)
     setIsLoading(false);
   };
 
