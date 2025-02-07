@@ -6,12 +6,8 @@ cmds = [
   "python -m venv /opt/venv",
   ". /opt/venv/bin/activate",
   "pip install --upgrade pip",
+  "find . -name 'test_func_inspect_special_encoding.py' -delete || true",
   "pip install -r requirements.txt"
-]
-
-[phases.build]
-cmds = [
-  "python -c \"import joblib, os, pathlib; f = os.path.join(os.path.dirname(joblib.__file__), 'test', 'test_func_inspect_special_encoding.py'); pathlib.Path(f).unlink(missing_ok=True)\""
 ]
 
 [start]
