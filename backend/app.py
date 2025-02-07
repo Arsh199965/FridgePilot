@@ -15,14 +15,8 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# Basic CORS configuration
-CORS(app, resources={
-    r"/*": {
-        "origins": "*",  # Allow all origins
-        "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-        "allow_headers": ["Content-Type", "Authorization", "Accept", "Origin"],
-    }
-})
+# Simple CORS configuration
+CORS(app)
 
 @app.after_request
 def after_request(response):
