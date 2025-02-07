@@ -1,10 +1,12 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from db import get_db_connection
-from flask_cors import cross_origin
+from flask_cors import cross_origin  # Import cross_origin for per-route CORS handling
 
 auth_bp = Blueprint("auth", __name__)
+
 @auth_bp.route("/signup", methods=["POST"])
+@cross_origin()  # Allows CORS on this route
 def signup():
     data = request.get_json()
     user_name = data.get("user_name")
@@ -31,6 +33,7 @@ def signup():
         conn.close()
 
 @auth_bp.route("/login", methods=["POST"])
+@cross_origin()  # Allows CORS on this route
 def login():
     data = request.get_json()
     user_id = data.get("user_id")
