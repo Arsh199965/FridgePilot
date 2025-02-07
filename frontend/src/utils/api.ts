@@ -2,7 +2,7 @@ import { API_CONFIG, ERROR_MESSAGES } from '@/constants';
 
 interface ApiOptions {
     method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
-    body?: any;
+    body?: Record<string, unknown>;
     headers?: Record<string, string>;
     credentials?: RequestCredentials;
 }
@@ -11,7 +11,7 @@ export class ApiError extends Error {
     constructor(
         public message: string,
         public status?: number,
-        public data?: any
+        public data?: unknown
     ) {
         super(message);
         this.name = 'ApiError';
@@ -27,7 +27,7 @@ export async function apiCall<T>(
             method = 'GET', 
             body, 
             headers = {},
-            credentials = 'include'  // Include credentials by default
+            credentials = 'include'
         } = options;
         
         const response = await fetch(`${API_CONFIG.baseUrl}${endpoint}`, {
@@ -45,7 +45,7 @@ export async function apiCall<T>(
             return {} as T;
         }
 
-        let data;
+        let data: unknown;
         const contentType = response.headers.get('content-type');
         if (contentType && contentType.includes('application/json')) {
             data = await response.json();
@@ -55,7 +55,9 @@ export async function apiCall<T>(
 
         if (!response.ok) {
             throw new ApiError(
-                data.message || ERROR_MESSAGES.SERVER_ERROR,
+                typeof data === 'object' && data !== null && 'message' in data
+                    ? String(data.message)
+                    : ERROR_MESSAGES.SERVER_ERROR,
                 response.status,
                 data
             );

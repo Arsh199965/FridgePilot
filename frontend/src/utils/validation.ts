@@ -1,4 +1,6 @@
-import { VALIDATION } from '@/constants';
+import { VALIDATION, UI_CONSTANTS } from '@/constants';
+
+type SupportedImageType = typeof UI_CONSTANTS.SUPPORTED_IMAGE_TYPES[number];
 
 export const validateEmail = (email: string): boolean => {
     return VALIDATION.EMAIL_PATTERN.test(email);
@@ -68,9 +70,7 @@ export const validateImageFile = (file: File): {
         return { isValid: false, error: 'No file selected' };
     }
 
-    const { UI_CONSTANTS } = require('@/constants');
-
-    if (!UI_CONSTANTS.SUPPORTED_IMAGE_TYPES.includes(file.type)) {
+    if (!UI_CONSTANTS.SUPPORTED_IMAGE_TYPES.includes(file.type as SupportedImageType)) {
         return { 
             isValid: false, 
             error: `File type not supported. Please use: ${UI_CONSTANTS.SUPPORTED_IMAGE_TYPES.join(', ')}` 

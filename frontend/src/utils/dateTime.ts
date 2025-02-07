@@ -69,11 +69,12 @@ export const addDays = (date: Date, days: number): Date => {
 
 export const getDateRangeArray = (startDate: Date, endDate: Date): Date[] => {
     const dates: Date[] = [];
-    let currentDate = new Date(startDate);
-
-    while (currentDate <= endDate) {
-        dates.push(new Date(currentDate));
-        currentDate.setDate(currentDate.getDate() + 1);
+    const daysCount = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+    
+    for (let i = 0; i <= daysCount; i++) {
+        const date = new Date(startDate);
+        date.setDate(date.getDate() + i);
+        dates.push(date);
     }
 
     return dates;
