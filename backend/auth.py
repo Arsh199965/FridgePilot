@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from db import get_db_connection
-from flask_cors import cross_origin
+# from flask_cors import cross_origin
 
 auth_bp = Blueprint("auth", __name__)
 # @auth_bp.route("/hello", methods=["GET"])
@@ -9,7 +9,7 @@ auth_bp = Blueprint("auth", __name__)
 # def hello():
 #     return jsonify({"message": "Hello, World!"})
 @auth_bp.route("/signup", methods=["POST"])
-@cross_origin(origins="*")
+# @cross_origin(origins="*")
 def signup():
     data = request.get_json()
     user_name = data.get("user_name")
@@ -36,7 +36,7 @@ def signup():
         conn.close()
 
 @auth_bp.route("/login", methods=["POST"])
-@cross_origin(origins="*")
+# @cross_origin(origins="*")
 def login():
     data = request.get_json()
     user_id = data.get("user_id")

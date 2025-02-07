@@ -7,8 +7,8 @@ from others import others_bp
 from prediction import prediction_bp
 from recipe_prediction import recipe_bp
 app = Flask(__name__)
-app.config["CORS_HEADERS"] = "Content-Type"
-CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+# app.config["CORS_HEADERS"] = "Content-Type"
+# CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 init_db()
 
 # Register Blueprints
