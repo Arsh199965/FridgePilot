@@ -14,7 +14,7 @@ def getname():
     cursor = conn.cursor()
 
     try:
-        cursor.execute("SELECT user_name FROM users WHERE user_id = ?", (user_id,))
+        cursor.execute("SELECT user_name FROM users WHERE user_id = %s", (user_id,))
         
         # return jsonify({"message": "User name fetched"}), 201
     except:
@@ -37,10 +37,10 @@ def update_profile():
     updates = []
     params = []
     if "name" in data and data["name"].strip():
-        updates.append("user_name = ?")
+        updates.append("user_name = %s")
         params.append(data["name"].strip())
     if "password" in data and data["password"].strip():
-        updates.append("password = ?")
+        updates.append("password = %s")
         params.append(generate_password_hash(data["password"].strip()))
     if not updates:
         return jsonify({"message": "No valid fields to update"}), 400
@@ -49,7 +49,7 @@ def update_profile():
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
-        query = f"UPDATE users SET {', '.join(updates)} WHERE user_id = ?"
+        query = f"UPDATE users SET {', '.join(updates)} WHERE user_id = %s"
         cursor.execute(query, tuple(params))
         conn.commit()
     except Exception as e:
@@ -70,9 +70,9 @@ def delete_profile():
     cursor = conn.cursor()
     try:
         # Delete pantry items associated with the user
-        cursor.execute("DELETE FROM pantry_items WHERE user_id = ?", (user_id,))
+        cursor.execute("DELETE FROM pantry_items WHERE user_id = %s", (user_id,))
         # Delete user record
-        cursor.execute("DELETE FROM users WHERE user_id = ?", (user_id,))
+        cursor.execute("DELETE FROM users WHERE user_id = %s", (user_id,))
         conn.commit()
     except Exception as e:
         conn.close()

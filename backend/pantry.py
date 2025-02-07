@@ -11,17 +11,20 @@ def add_item():
     user_id = request.args.get("user_id")
     if not user_id or not data.get("item"):
         return jsonify({"message": "Missing user_id or item data"}), 400
+    print(user_id)
     item = data["item"]
+    print(item)
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
         cursor.execute(
-            "INSERT INTO pantry_items (id, user_id, item_name, quantity, expiry_date, category, unit, added_date, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO pantry_items (id, user_id, item_name, quantity, expiry_date, category, unit, added_date, notes) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
             (item.get("id"), user_id, item.get("name"), item.get("quantity"), item.get("expiryDate"),
              item.get("category"), item.get("unit"), item.get("addedDate"), item.get("notes"))
         )
         conn.commit()
     except Exception as e:
+        print(f"here {e} ")
         return jsonify({"message": "Error adding item", "error": str(e)}), 500
     finally:
         conn.close()
@@ -39,7 +42,7 @@ def update_item():
     cursor = conn.cursor()
     try:
         cursor.execute(
-            "UPDATE pantry_items SET item_name=?, quantity=?, expiry_date=?, category=?, unit=?, added_date=?, notes=? WHERE id=? AND user_id=?",
+            "UPDATE pantry_items SET item_name=%s, quantity=%s, expiry_date=%s, category=%s, unit=%s, added_date=%s, notes=%s WHERE id=%s AND user_id=%s",
             (item.get("name"), item.get("quantity"), item.get("expiryDate"), item.get("category"),
              item.get("unit"), item.get("addedDate"), item.get("notes"), item.get("id"), user_id)
         )
@@ -60,7 +63,7 @@ def delete_item():
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
-        cursor.execute("DELETE FROM pantry_items WHERE id=? AND user_id=?", (item_id, user_id))
+        cursor.execute("DELETE FROM pantry_items WHERE id=%s AND user_id=%s", (item_id, user_id))
         conn.commit()
     except Exception as e:
         return jsonify({"message": "Error deleting item", "error": str(e)}), 500
@@ -78,7 +81,7 @@ def get_items():
     cursor = conn.cursor()
     try:
         cursor.execute(
-            "SELECT id, item_name, quantity, unit, category, expiry_date, added_date, notes FROM pantry_items WHERE user_id=?",
+            "SELECT id, item_name, quantity, unit, category, expiry_date, added_date, notes FROM pantry_items WHERE user_id=%s",
             (user_id,)
         )
     except Exception as e:

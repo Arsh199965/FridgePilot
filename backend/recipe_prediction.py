@@ -3,7 +3,7 @@ from recipes_recommender import recommend_recipes
 import sqlite3
 from datetime import datetime
 from flask_cors import cross_origin
-
+from db import get_db_connection
 recipe_bp = Blueprint('recipe_bp', __name__)
 
 def get_user_pantry(user_id):
@@ -15,9 +15,9 @@ def get_user_pantry(user_id):
       - ingredients: list of item names.
       - expiry_info: dict mapping item_name to days until expiry.
     """
-    conn = sqlite3.connect("pantrypal.db")
+    conn = get_db_connection()
     cursor = conn.cursor()
-    query = "SELECT item_name, expiry_date FROM pantry_items WHERE user_id = ?"
+    query = "SELECT item_name, expiry_date FROM pantry_items WHERE user_id = %s"
     cursor.execute(query, (user_id,))
     rows = cursor.fetchall()
     conn.close()
