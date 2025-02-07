@@ -5,8 +5,6 @@ from db import get_db_connection
 from flask_cors import CORS
 # import os
 
-app = Flask(__name__)
-CORS(app) 
 auth_bp = Blueprint("auth", __name__)
 
 
