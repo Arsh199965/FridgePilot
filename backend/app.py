@@ -3,22 +3,26 @@ from db import init_db
 from auth import auth_bp
 from pantry import pantry_bp
 from others import others_bp
-import os
 from prediction import prediction_bp
 from recipe_prediction import recipe_bp
 from dotenv import load_dotenv
-from flask import Response
+from flask_cors import CORS
+
+# from flask import Response
+# import os
 
 load_dotenv()
 
-FRONTEND = os.getenv("FRONTEND_URL", "*")  
 app = Flask(__name__)
+CORS(app) 
 
 init_db()
-@app.after_request
-def add_header(response):
-    response.headers['Access-Control-Allow-Origin'] = '*'
-    return response
+
+
+# @app.after_request
+# def add_header(response):
+#     response.headers['Access-Control-Allow-Origin'] = '*'
+#     return response
 
 app.register_blueprint(auth_bp, url_prefix="/auth")
 app.register_blueprint(pantry_bp, url_prefix="/pantry")
