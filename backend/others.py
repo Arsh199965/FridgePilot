@@ -1,11 +1,9 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from db import get_db_connection
-from flask_cors import cross_origin
 others_bp = Blueprint("others", __name__)
 
 @others_bp.route("/get-name", methods=["GET"])
-@cross_origin(origins="*")
 def getname():
     user_id = request.args.get("user_id")
     if not user_id:
@@ -28,7 +26,6 @@ def getname():
         conn.close()
 
 @others_bp.route("/update-profile", methods=["PUT"])
-@cross_origin(origins="*")
 def update_profile():
     user_id = request.args.get("user_id")
     if not user_id:

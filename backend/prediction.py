@@ -2,7 +2,6 @@ from flask import Blueprint, request, jsonify
 from datetime import datetime, timedelta
 import pandas as pd
 import joblib
-from flask_cors import cross_origin
 APP_CATEGORY_MAPPING = {
     "dairy": [7],
     "meat": [10, 11, 12, 13, 14, 15, 16, 17, 20, 21, 22, 25],
@@ -44,7 +43,6 @@ def predict_expiry(product_name, web_category, buy_date_str):
     return {"predicted_expiry_date": expiry_date.strftime("%Y-%m-%d")}
 
 @prediction_bp.route('/predict', methods=['GET'])
-@cross_origin(origins="*")
 def predict():
     product_name = request.args.get('name')
     web_category = request.args.get('category')

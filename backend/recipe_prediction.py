@@ -1,7 +1,6 @@
 from flask import Blueprint, request, jsonify
 from recipes_recommender import recommend_recipes
 from datetime import datetime
-from flask_cors import cross_origin
 from db import get_db_connection
 
 recipe_bp = Blueprint('recipe_bp', __name__)
@@ -43,7 +42,6 @@ def get_user_pantry(user_id):
     return ingredients, expiry_info
 
 @recipe_bp.route('/get-recipes', methods=['GET'])
-@cross_origin()  # Uses global app-level CORS settings
 def get_recipes():
     user_id = request.args.get("user_id")
     if not user_id:

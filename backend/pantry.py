@@ -1,11 +1,9 @@
 from flask import Blueprint, request, jsonify
 from db import get_db_connection
-from flask_cors import cross_origin  # Import cross_origin for per-route CORS handling
 
 pantry_bp = Blueprint("pantry", __name__)
 
 @pantry_bp.route("/add-item", methods=["POST"])
-@cross_origin()  # Uses global app-level CORS settings
 def add_item():
     data = request.get_json()
     user_id = request.args.get("user_id")
@@ -31,7 +29,6 @@ def add_item():
     return jsonify({"message": "Item added"}), 200
 
 @pantry_bp.route("/update-item", methods=["PUT"])
-@cross_origin()
 def update_item():
     data = request.get_json()
     user_id = request.args.get("user_id")
@@ -57,7 +54,7 @@ def update_item():
     return jsonify({"message": "Item updated"}), 200
 
 @pantry_bp.route("/delete-item", methods=["DELETE"])
-@cross_origin()
+
 def delete_item():
     user_id = request.args.get("user_id")
     item_id = request.args.get("id")
@@ -78,7 +75,7 @@ def delete_item():
     return jsonify({"message": "Item deleted"}), 200
 
 @pantry_bp.route("/get-items", methods=["GET"])
-@cross_origin()
+
 def get_items():
     user_id = request.args.get("user_id")
     if not user_id:

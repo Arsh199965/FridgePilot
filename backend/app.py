@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_cors import CORS
 from db import init_db
 from auth import auth_bp
 from pantry import pantry_bp
@@ -14,11 +13,6 @@ load_dotenv()
 
 FRONTEND = os.getenv("FRONTEND_URL", "*")  
 app = Flask(__name__)
-
-app.config["CORS_HEADERS"] = "Content-Type"
-
-# Apply CORS globally
-CORS(app, resources={r"/*": {"origins": FRONTEND}}, supports_credentials=True)
 
 init_db()
 @app.after_request
