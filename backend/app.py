@@ -13,9 +13,11 @@ load_dotenv()
 
 FRONTEND = os.getenv("FRONTEND_URL", "*")  
 app = Flask(__name__)
+
 app.config["CORS_HEADERS"] = "Content-Type"
 
-CORS(app, origins=[FRONTEND] if FRONTEND != "*" else "*")
+# Apply CORS globally
+CORS(app, resources={r"/*": {"origins": FRONTEND}}, supports_credentials=True)
 
 init_db()
 
@@ -27,4 +29,3 @@ app.register_blueprint(recipe_bp, url_prefix="/recipe")
 
 if __name__ == "__main__":
     app.run(debug=False)
-a
