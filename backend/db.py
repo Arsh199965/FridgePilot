@@ -9,7 +9,7 @@ DB_USER = os.getenv("POSTGRES_USER")
 DB_PASSWORD = os.getenv("POSTGRES_PASSWORD")
 DB_HOST = os.getenv("POSTGRES_HOST")
 DB_PORT = os.getenv("POSTGRES_PORT")
-
+DB_URL = os.getenv("DATABASE_URL")
 def init_db():
     conn = psycopg2.connect(
         dbname=DB_NAME,
@@ -33,7 +33,7 @@ def init_db():
     # Create pantry_items table
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS pantry_items (
-            id SERIAL PRIMARY KEY,
+            id BIGINT PRIMARY KEY,
             user_id TEXT NOT NULL,
             item_name TEXT NOT NULL,
             quantity TEXT NOT NULL,

@@ -10,18 +10,22 @@ def getname():
     user_id = request.args.get("user_id")
     if not user_id:
         return jsonify({"message": "Missing user_id"}), 400
+    
     conn = get_db_connection()
     cursor = conn.cursor()
 
     try:
         cursor.execute("SELECT user_name FROM users WHERE user_id = %s", (user_id,))
+        row = cursor.fetchone()
         
-        # return jsonify({"message": "User name fetched"}), 201
-    except:
-        return jsonify({"message": "Could not find user"}), 400
-    row = cursor.fetchone()   
-    conn.close()
-    return jsonify({"message": "User name fetched", "name": row[0]}), 200
+        if row is None:
+            return jsonify({"message": "User not found"}), 404
+            
+        return jsonify({"message": "User name fetched", "name": row[0]}), 200
+    except Exception as e:
+        return jsonify({"message": "Error fetching user", "error": str(e)}), 500
+    finally:
+        conn.close()
 
 @others_bp.route("/update-profile", methods=["PUT"])
 @cross_origin(origins="*")

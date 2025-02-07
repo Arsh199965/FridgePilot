@@ -73,8 +73,8 @@ const AuthPage: NextPage = () => {
 
     try {
       const endpoint = isLogin
-        ? `${baseUrl}/login` 
-        : `${baseUrl}/signup` 
+        ? `${baseUrl}/auth/login` 
+        : `${baseUrl}/auth/signup` 
       const body = {
         user_name: name,
         user_id: email,

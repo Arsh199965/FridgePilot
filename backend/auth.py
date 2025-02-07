@@ -4,7 +4,10 @@ from db import get_db_connection
 from flask_cors import cross_origin
 
 auth_bp = Blueprint("auth", __name__)
-
+# @auth_bp.route("/hello", methods=["GET"])
+# @cross_origin(origins="*")
+# def hello():
+#     return jsonify({"message": "Hello, World!"})
 @auth_bp.route("/signup", methods=["POST"])
 @cross_origin(origins="*")
 def signup():
