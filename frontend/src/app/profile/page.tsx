@@ -2,12 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import {
-  Package,
-  Bell,
-  LogOut,
-  AlertTriangle,
-} from "lucide-react";
+import { Package, Bell, LogOut, AlertTriangle } from "lucide-react";
+import {baseUrl} from "@/constants/constants";
 interface AlertItem {
   id: string;
   name: string;
@@ -37,7 +33,7 @@ const ProfilePage = () => {
       }
       try {
         const response = await fetch(
-          `http://127.0.0.1:5000/others/get-name?user_id=${userId}`
+          `${baseUrl}/others/get-name?user_id=${userId}`
         );
         const data = await response.json();
         setNewName(data.name);
@@ -45,7 +41,6 @@ const ProfilePage = () => {
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
-    
     };
     fetchName();
 
@@ -55,7 +50,7 @@ const ProfilePage = () => {
 
       try {
         const response = await fetch(
-          `http://127.0.0.1:5000/pantry/get-items?user_id=${userId}`
+          `${baseUrl}/pantry/get-items?user_id=${userId}`
         );
         const data = await response.json();
 
@@ -117,7 +112,7 @@ const ProfilePage = () => {
     }
     try {
       const response = await fetch(
-        `http://127.0.0.1:5000/others/update-profile?user_id=${userId}`,
+        `${baseUrl}/others/update-profile?user_id=${userId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -150,7 +145,7 @@ const ProfilePage = () => {
       }
       try {
         const response = await fetch(
-          `http://127.0.0.1:5000/others/delete-profile?user_id=${userId}`,
+          `${baseUrl}/others/delete-profile?user_id=${userId}`,
           {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },

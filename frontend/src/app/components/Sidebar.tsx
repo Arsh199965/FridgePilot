@@ -1,7 +1,6 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import {
-
   ShoppingBasket,
   Bell,
   ChefHat,
@@ -9,40 +8,40 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import {usePathname} from "next/navigation";
+import { usePathname } from "next/navigation";
+import { baseUrl } from "@/constants/constants";
 const Sidebar = () => {
-    const [isExpanded, setIsExpanded] = useState(true);
-    const [name, setName] = useState("");
-    const [userId, setUserId] = useState("");
-    const pathName = usePathname();
-    useEffect(() => {
-      const getName = async () => {
-          const userId = localStorage.getItem("user_id");
-          setUserId(userId? userId: "");
-        if (!userId) {
-          console.log("User ID not found");
-          return;
-        }
-        const response = await fetch(
-          `http://127.0.0.1:5000/others/get-name?user_id=${userId}`
-        );
-        const data = await response.json();
-        setName(data.name);
-      };
-      getName();
-    }, []);
+  const [isExpanded, setIsExpanded] = useState(true);
+  const [name, setName] = useState("");
+  const [userId, setUserId] = useState("");
+  const pathName = usePathname();
+  useEffect(() => {
+    const getName = async () => {
+      const userId = localStorage.getItem("user_id");
+      setUserId(userId ? userId : "");
+      if (!userId) {
+        console.log("User ID not found");
+        return;
+      }
+      const response = await fetch(
+        `${baseUrl}/others/get-name?user_id=${userId}`
+      );
+      const data = await response.json();
+      setName(data.name);
+    };
+    getName();
+  }, []);
   const menuItems = [
     { title: "Pantry", icon: ShoppingBasket, path: "/pantry" },
     { title: "Alerts", icon: Bell, path: "/alerts" },
     { title: "Recipes", icon: ChefHat, path: "/recipes" },
     { title: "Profile", icon: UserCircle, path: "/profile" },
-    ];
-    // const userId = localStorage.getItem("user_id");
-    
-    if (pathName === "/" || pathName === "/login" || pathName === "/about") {
-      return <></>;
-    }
-    
+  ];
+  // const userId = localStorage.getItem("user_id");
+
+  if (pathName === "/" || pathName === "/login" || pathName === "/about") {
+    return <></>;
+  }
 
   return (
     <div

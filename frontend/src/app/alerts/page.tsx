@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { AlertTriangle, Clock, Trash2, CheckCircle } from "lucide-react";
-
+import { baseUrl } from "@/constants/constants";
 interface AlertItem {
   id: string;
   name: string;
@@ -21,7 +21,7 @@ const AlertsPage = () => {
 
       try {
         const response = await fetch(
-          `http://127.0.0.1:5000/pantry/get-items?user_id=${userId}`
+          `${baseUrl}/pantry/get-items?user_id=${userId}`
         );
         const data = await response.json();
 

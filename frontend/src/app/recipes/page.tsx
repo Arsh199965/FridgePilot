@@ -1,7 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Search, ChefHat, BookOpen, ChevronDown, ChevronUp } from "lucide-react";
+import {
+  Search,
+  ChefHat,
+  BookOpen,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
+import { baseUrl } from "@/constants/constants";
 
 interface Recipe {
   title: string;
@@ -34,10 +41,10 @@ const RecipesPage = () => {
 
       try {
         const response = await fetch(
-          `http://127.0.0.1:5000/recipe/get-recipes?user_id=${userId}`
+          `${baseUrl}/recipe/get-recipes?user_id=${userId}`
         );
         const data = await response.json();
-        if(data.recipes) setRecipes(data.recipes);
+        if (data.recipes) setRecipes(data.recipes);
       } catch (error) {
         console.error("Error fetching recipes:", error);
       }

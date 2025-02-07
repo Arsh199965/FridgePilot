@@ -1,16 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Plus,
-  Search,
-  Trash2,
-  Edit2,
-  Calendar,
-  Package,
-} from "lucide-react";
+import { Plus, Search, Trash2, Edit2, Calendar, Package } from "lucide-react";
 import type { NextPage } from "next";
 import EditModal from "../components/EditModal";
+import { baseUrl } from "@/constants/constants";
 interface PantryItem {
   id: string;
   name: string;
@@ -21,7 +15,6 @@ interface PantryItem {
   addedDate: string;
   notes?: string;
 }
-
 
 const PantryPage: NextPage = () => {
   const [items, setItems] = useState<PantryItem[]>([]);
@@ -34,7 +27,7 @@ const PantryPage: NextPage = () => {
   // New API functions
   const addItemToBackend = async (item: PantryItem) => {
     const userId = localStorage.getItem("user_id");
-    await fetch(`http://127.0.0.1:5000/pantry/add-item?user_id=${userId}`, {
+    await fetch(`${baseUrl}/pantry/add-item?user_id=${userId}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ item }),
@@ -43,7 +36,7 @@ const PantryPage: NextPage = () => {
 
   const updateItemToBackend = async (item: PantryItem) => {
     const userId = localStorage.getItem("user_id");
-    await fetch(`http://127.0.0.1:5000/pantry/update-item?user_id=${userId}`, {
+    await fetch(`${baseUrl}/pantry/update-item?user_id=${userId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ item }),
@@ -52,25 +45,30 @@ const PantryPage: NextPage = () => {
 
   const deleteItemFromBackend = async (id: string) => {
     const userId = localStorage.getItem("user_id");
-    await fetch(
-      `http://127.0.0.1:5000/pantry/delete-item?user_id=${userId}&id=${id}`,
-      {
-        method: "DELETE",
-      }
-    );
+    await fetch(`${baseUrl}/pantry/delete-item?user_id=${userId}&id=${id}`, {
+      method: "DELETE",
+    });
   };
-  const getExpiryDate = async (name: string, category: string, addedDate: string) => {
+  const getExpiryDate = async (
+    name: string,
+    category: string,
+    addedDate: string
+  ) => {
     const response = await fetch(
-      `http://127.0.0.1:5000/prediction/predict?name=${name}&category=${category}&buy_date=${addedDate}`
+      `${baseUrl}/prediction/predict?name=${name}&category=${category}&buy_date=${addedDate}`
     );
     const data = await response.json();
     return data.predicted_expiry_date;
-  }
+  };
   // Modified Handlers in PantryPage component:
   const handleAddEdit = async (item: PantryItem) => {
     let updatedItems: PantryItem[];
     if (item.expiryDate === "Auto") {
-      const expiryDate = await getExpiryDate(item.name, item.category, item.addedDate);
+      const expiryDate = await getExpiryDate(
+        item.name,
+        item.category,
+        item.addedDate
+      );
       item.expiryDate = expiryDate;
     }
     if (editingItem) {
@@ -107,7 +105,7 @@ const PantryPage: NextPage = () => {
         return;
       }
       const response = await fetch(
-        `http://127.0.0.1:5000/pantry/get-items?user_id=${userId}`
+        `${baseUrl}/pantry/get-items?user_id=${userId}`
       );
       const data = await response.json();
       setItems(data.data);

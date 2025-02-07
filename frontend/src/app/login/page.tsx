@@ -5,6 +5,8 @@ import { Mail, Lock, User, ArrowRight, Check } from "lucide-react";
 import type { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
+import { baseUrl } from "@/constants/constants";
+
 // Custom Google Icon component
 const GoogleIcon: React.FC<{ size?: number; className?: string }> = ({
   size = 18,
@@ -71,8 +73,8 @@ const AuthPage: NextPage = () => {
 
     try {
       const endpoint = isLogin
-        ? "http://127.0.0.1:5000/auth/login"
-        : "http://127.0.0.1:5000/auth/signup";
+        ? `${baseUrl}/login` 
+        : `${baseUrl}/signup` 
       const body = {
         user_name: name,
         user_id: email,
