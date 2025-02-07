@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from db import init_db
 from auth import auth_bp
 from pantry import pantry_bp
@@ -14,16 +14,28 @@ from flask_cors import CORS
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, resources={
-    r"/*": {
-        "origins": [
-            "https://fridgepilot.vercel.app",
-            "http://localhost:3000"  # Keep local development working
-        ],
-        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        "allow_headers": ["Content-Type", "Authorization"]
-    }
-})
+
+# Configure CORS
+CORS(app, 
+     resources={r"/*": {
+         "origins": ["https://fridgepilot.vercel.app", "http://localhost:3000"],
+         "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+         "allow_headers": ["Content-Type", "Authorization", "Access-Control-Allow-Origin"],
+         "expose_headers": ["Content-Type", "Authorization"],
+         "supports_credentials": True,
+         "max_age": 600
+     }})
+
+# Additional CORS headers
+@app.after_request
+def after_request(response):
+    if request.method == 'OPTIONS':
+        response.headers["Access-Control-Allow-Origin"] = "https://fridgepilot.vercel.app"
+        response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+        response.headers["Access-Control-Allow-Credentials"] = "true"
+        response.headers["Access-Control-Max-Age"] = "600"
+    return response
 
 init_db()
 

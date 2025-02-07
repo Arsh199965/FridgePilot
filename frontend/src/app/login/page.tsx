@@ -83,8 +83,13 @@ const AuthPage: NextPage = () => {
 
       const response = await fetch(endpoint, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        credentials: "include",
+        mode: "cors",
+        body: JSON.stringify(body)
       });
 
       if (response.ok) {
