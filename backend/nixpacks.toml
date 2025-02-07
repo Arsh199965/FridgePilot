@@ -1,8 +1,18 @@
-# nixpacks.toml
+[phases.setup]
+nixPkgs = ["python312"]
 
-[build]
-pre = "python -c \"import joblib, os, pathlib; f = os.path.join(os.path.dirname(joblib.__file__), 'test', 'test_func_inspect_special_encoding.py'); if pathlib.Path(f).exists(): os.remove(f)\""
+[phases.install]
+cmds = [
+  "python -m venv /opt/venv",
+  ". /opt/venv/bin/activate",
+  "pip install --upgrade pip",
+  "pip install -r requirements.txt"
+]
+
+[phases.build]
+cmds = [
+  "python -c \"import joblib, os, pathlib; f = os.path.join(os.path.dirname(joblib.__file__), 'test', 'test_func_inspect_special_encoding.py'); pathlib.Path(f).unlink(missing_ok=True)\""
+]
 
 [start]
 cmd = "gunicorn app:app"
-
