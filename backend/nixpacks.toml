@@ -1,14 +1,18 @@
 [phases.setup]
-nixPkgs = ["python312"]
+nixPkgs = [
+    "python312",
+    "gcc",
+    "python312.pkgs.pip"
+]
 
 [phases.install]
 cmds = [
-  "python -m venv /opt/venv",
-  ". /opt/venv/bin/activate",
-  "pip install --upgrade pip",
-  "find . -name 'test_func_inspect_special_encoding.py' -delete || true",
-  "pip install -r requirements.txt"
+    "python -m venv /opt/venv",
+    ". /opt/venv/bin/activate",
+    "pip install --upgrade pip",
+    "find . -name 'test_func_inspect_special_encoding.py' -delete || true",
+    "pip install -r requirements.txt"
 ]
 
 [start]
-cmd = "gunicorn app:app"
+cmd = "gunicorn app:app --bind 0.0.0.0:$PORT"
