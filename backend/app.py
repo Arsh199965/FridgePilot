@@ -15,32 +15,20 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# Configure CORS with a simpler configuration
-CORS(app, 
-     resources={r"/*": {
-         "origins": ["https://fridgepilot.vercel.app", "http://localhost:3000"],
-         "methods": ["GET", "HEAD", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
-         "allow_headers": ["Content-Type", "Authorization", "Accept", "Origin", "X-Requested-With"],
-         "max_age": 3600,
-         "supports_credentials": False  # Changed to False since we're using token-based auth
-     }})
+# Basic CORS configuration
+CORS(app, resources={
+    r"/*": {
+        "origins": "*",  # Allow all origins
+        "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization", "Accept", "Origin"],
+    }
+})
 
-# Ensure CORS headers are set for all responses
 @app.after_request
-def add_cors_headers(response):
-    # Get the origin from the request
-    origin = request.headers.get('Origin')
-    
-    # If the origin is in our allowed origins, set the CORS headers
-    if origin in ["https://fridgepilot.vercel.app", "http://localhost:3000"]:
-        response.headers['Access-Control-Allow-Origin'] = origin
-        # Allow all requested headers
-        if request.headers.get('Access-Control-Request-Headers'):
-            response.headers['Access-Control-Allow-Headers'] = request.headers['Access-Control-Request-Headers']
-        response.headers['Access-Control-Allow-Methods'] = 'GET, HEAD, POST, OPTIONS, PUT, PATCH, DELETE'
-        response.headers['Access-Control-Max-Age'] = '3600'
-        response.headers['Access-Control-Allow-Credentials'] = 'false'
-        
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,Accept,Origin')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
     return response
 
 init_db()
