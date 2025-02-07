@@ -1,4 +1,8 @@
 # nixpacks.toml
 
+[build]
+pre = "python -c \"import joblib, os, pathlib; f = os.path.join(os.path.dirname(joblib.__file__), 'test', 'test_func_inspect_special_encoding.py'); \
+if pathlib.Path(f).exists(): os.remove(f)\""
+
 [start]
 cmd = "gunicorn app:app"
