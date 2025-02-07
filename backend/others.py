@@ -61,7 +61,6 @@ def update_profile():
     return jsonify({"message": "Profile updated successfully"}), 200
 
 @others_bp.route("/delete-profile", methods=["DELETE"])
-@cross_origin(origins="*")
 def delete_profile():
     user_id = request.args.get("user_id")
     if not user_id:
