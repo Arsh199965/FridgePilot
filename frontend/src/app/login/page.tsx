@@ -85,9 +85,9 @@ const AuthPage: NextPage = () => {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
-          "Accept": "application/json"
+          "Accept": "application/json",
+          "Origin": "https://fridgepilot.vercel.app"
         },
-        credentials: "same-origin",
         mode: "cors",
         body: JSON.stringify(body)
       });

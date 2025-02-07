@@ -15,25 +15,32 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# Configure CORS
+# Configure CORS with a simpler configuration
 CORS(app, 
      resources={r"/*": {
          "origins": ["https://fridgepilot.vercel.app", "http://localhost:3000"],
-         "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-         "allow_headers": ["Content-Type", "Authorization"],
-         "expose_headers": ["Content-Type", "Authorization"],
-         "supports_credentials": True
+         "methods": ["GET", "HEAD", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
+         "allow_headers": ["Content-Type", "Authorization", "Accept", "Origin", "X-Requested-With"],
+         "max_age": 3600,
+         "supports_credentials": False  # Changed to False since we're using token-based auth
      }})
 
-# Additional CORS headers for all requests
+# Ensure CORS headers are set for all responses
 @app.after_request
-def after_request(response):
+def add_cors_headers(response):
+    # Get the origin from the request
     origin = request.headers.get('Origin')
+    
+    # If the origin is in our allowed origins, set the CORS headers
     if origin in ["https://fridgepilot.vercel.app", "http://localhost:3000"]:
-        response.headers["Access-Control-Allow-Origin"] = origin
-        response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
-        response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
-        response.headers["Access-Control-Allow-Credentials"] = "true"
+        response.headers['Access-Control-Allow-Origin'] = origin
+        # Allow all requested headers
+        if request.headers.get('Access-Control-Request-Headers'):
+            response.headers['Access-Control-Allow-Headers'] = request.headers['Access-Control-Request-Headers']
+        response.headers['Access-Control-Allow-Methods'] = 'GET, HEAD, POST, OPTIONS, PUT, PATCH, DELETE'
+        response.headers['Access-Control-Max-Age'] = '3600'
+        response.headers['Access-Control-Allow-Credentials'] = 'false'
+        
     return response
 
 init_db()
