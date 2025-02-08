@@ -52,6 +52,16 @@ const EditModal: React.FC<EditModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSave(formData);
+    setFormData({
+      id: Date.now().toString(),
+      name: "",
+      quantity: 1,
+      unit: "pieces",
+      category: "general",
+      expiryDate: "Auto",
+      addedDate: new Date().toISOString().split("T")[0],
+      notes: "No Note Set",
+    });
     onClose();
   };
 

@@ -245,7 +245,6 @@ const PantryPage: NextPage = () => {
         onClose={() => {
           setIsModalOpen(false);
           setEditingItem(null);
-          window.location.reload();
         }}
         onSave={handleAddEdit}
       />
