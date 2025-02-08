@@ -31,5 +31,4 @@ build/
 .env.production.local
 
 # Model files and large data
-*.pkl
 *.json
