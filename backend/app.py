@@ -16,6 +16,23 @@ load_dotenv()
 # Initialize Flask app
 app = Flask(__name__)
 
+# Root endpoint
+@app.route('/')
+def hello_world():
+    return jsonify({
+        "message": "Welcome to FridgePilot API",
+        "status": "healthy",
+        "version": "1.0.0",
+        "documentation": "/docs",  # For future API documentation
+        "endpoints": {
+            "auth": "/auth",
+            "pantry": "/pantry",
+            "others": "/others",
+            "prediction": "/prediction",
+            "recipe": "/recipe"
+        }
+    }), 200
+
 # CORS configuration
 @app.after_request
 def add_cors_headers(response):
@@ -58,4 +75,14 @@ app.register_blueprint(recipe_bp, url_prefix="/recipe")
 
 # Run the app
 if __name__ == "__main__":
-    app.run(debug=False)
+    import platform
+    if platform.system() == 'Windows':
+        try:
+            from waitress import serve
+            print("Starting Waitress server...")
+            serve(app, host="0.0.0.0", port=5000)
+        except ImportError:
+            print("Waitress not installed. Running Flask development server...")
+            app.run(host="0.0.0.0", port=5000, debug=False)
+    else:
+        app.run(host="0.0.0.0", port=5000, debug=False)
