@@ -83,12 +83,12 @@ const AuthPage: NextPage = () => {
 
       const response = await fetch(endpoint, {
         method: "POST",
+        body: JSON.stringify(body),
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Accept": "application/json",
         },
-        body: JSON.stringify(body)
-      });
-
+      })
       const data = await response.json();
 
       if (response.ok) {
