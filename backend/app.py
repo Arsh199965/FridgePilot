@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from dotenv import load_dotenv
 from db import init_db
 import os
@@ -16,6 +17,18 @@ load_dotenv()
 # Initialize Flask app
 app = Flask(__name__)
 
+# CORS configuration
+allowed_origins = os.getenv('ALLOWED_ORIGINS', 'http://localhost:3000,https://fridgepilot.vercel.app').split(',')
+CORS(app, resources={
+    r"/*": {
+        "origins": allowed_origins,
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+        "allow_headers": ["Content-Type", "Authorization", "Accept", "Origin", "X-Requested-With"],
+        "supports_credentials": True,
+        "max_age": 3600
+    }
+})
+
 # Root endpoint
 @app.route('/')
 def hello_world():
@@ -32,36 +45,6 @@ def hello_world():
             "recipe": "/recipe"
         }
     }), 200
-
-# CORS configuration
-@app.after_request
-def add_cors_headers(response):
-    # Get allowed origins from environment variable or use default
-    allowed_origins = os.getenv('ALLOWED_ORIGINS', 'http://localhost:3000,https://fridgepilot.vercel.app').split(',')
-    origin = request.headers.get('Origin')
-    
-    # Check if the request origin is in our list of allowed origins
-    if origin and (origin in allowed_origins or '*' in allowed_origins):
-        response.headers['Access-Control-Allow-Origin'] = origin
-    
-    # Allow credentials
-    response.headers['Access-Control-Allow-Credentials'] = 'true'
-    
-    # Allow specific headers
-    response.headers['Access-Control-Allow-Headers'] = (
-        'Content-Type, Authorization, Accept, Origin, X-Requested-With'
-    )
-    
-    # Allow specific methods
-    response.headers['Access-Control-Allow-Methods'] = (
-        'GET, POST, PUT, DELETE, OPTIONS, PATCH'
-    )
-    
-    # Cache preflight requests for 1 hour
-    if request.method == 'OPTIONS':
-        response.headers['Access-Control-Max-Age'] = '3600'
-    
-    return response
 
 # Initialize database
 init_db()
