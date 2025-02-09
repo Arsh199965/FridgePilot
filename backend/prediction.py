@@ -3,7 +3,15 @@ from datetime import datetime, timedelta
 from typing import Dict, Any, Optional, Union
 import pandas as pd
 import joblib
-
+from dotenv import load_dotenv
+import os
+load_dotenv()
+model_path = os.getenv("MODEL_PATH")
+try:
+    model = joblib.load(model_path)
+except Exception as e:
+    print(f"Error loading model: {e}")
+    model = None
 # Category mapping for the ML model
 APP_CATEGORY_MAPPING = {
     "dairy": [7],
@@ -21,12 +29,6 @@ APP_CATEGORY_MAPPING = {
 # Initialize blueprint
 prediction_bp = Blueprint('prediction_bp', __name__)
 
-# Load ML model
-try:
-    model = joblib.load("improved_shelf_life_model.pkl")
-except Exception as e:
-    print(f"Error loading model: {e}")
-    model = None
 
 def get_category_id(web_category: str) -> Optional[int]:
     """Get the model category ID from web category.

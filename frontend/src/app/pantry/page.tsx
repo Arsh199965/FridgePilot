@@ -58,6 +58,12 @@ const PantryPage: NextPage = () => {
       `${baseUrl}/prediction/predict?name=${name}&category=${category}&buy_date=${addedDate}`
     );
     const data = await response.json();
+    if (!response.ok) {
+      console.error("Backend error:", data.error);
+      
+      alert(`Prediction error: ${data.error}`);
+      return ""; // or a default expiry date value
+    }
     return data.predicted_expiry_date;
   };
   // Modified Handlers in PantryPage component:
@@ -70,6 +76,7 @@ const PantryPage: NextPage = () => {
         item.addedDate
       );
       item.expiryDate = await expiryDate;
+
     }
     if (editingItem) {
       updatedItems = items.map((i) => (i.id === item.id ? item : i));
