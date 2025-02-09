@@ -69,7 +69,7 @@ const PantryPage: NextPage = () => {
         item.category,
         item.addedDate
       );
-      item.expiryDate = expiryDate;
+      item.expiryDate = await expiryDate;
     }
     if (editingItem) {
       updatedItems = items.map((i) => (i.id === item.id ? item : i));
