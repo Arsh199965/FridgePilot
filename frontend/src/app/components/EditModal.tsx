@@ -58,7 +58,7 @@ const EditModal: React.FC<EditModalProps> = ({
       quantity: 1,
       unit: "pieces",
       category: "general",
-      expiryDate: "Auto",
+      expiryDate: "",
       addedDate: new Date().toISOString().split("T")[0],
       notes: "No Note Set",
     });

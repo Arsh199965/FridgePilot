@@ -63,7 +63,7 @@ const PantryPage: NextPage = () => {
   // Modified Handlers in PantryPage component:
   const handleAddEdit = async (item: PantryItem) => {
     let updatedItems: PantryItem[];
-    if (item.expiryDate === "Auto") {
+    if (item.expiryDate === "") {
       const expiryDate = await getExpiryDate(
         item.name,
         item.category,
