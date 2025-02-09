@@ -18,7 +18,7 @@ interface PantryItem {
 
 const PantryPage: NextPage = () => {
   const [items, setItems] = useState<PantryItem[]>([]);
-
+  const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -103,22 +103,37 @@ const PantryPage: NextPage = () => {
     return matchesSearch && matchesCategory;
   });
 
-  useEffect(() => {
-    const getData = async () => {
-      // Get the current user id (this assumes you've stored it under "user_id" after login)
-      const userId = localStorage.getItem("user_id");
-      if (!userId) {
-        console.error("User ID not found");
-        return;
-      }
-      const response = await fetch(
-        `${baseUrl}/pantry/get-items?user_id=${userId}`
-      );
-      const data = await response.json();
-      setItems(data.data);
-    };
-    getData();
-  }, []);
+ useEffect(() => {
+   const getData = async () => {
+     const userId = localStorage.getItem("user_id");
+     if (!userId) {
+       console.error("User ID not found");
+       setIsLoading(false);
+       return;
+     }
+     try {
+       const response = await fetch(
+         `${baseUrl}/pantry/get-items?user_id=${userId}`
+       );
+       const data = await response.json();
+       setItems(data.data);
+     } catch (error) {
+       console.error("Error fetching items:", error);
+     } finally {
+       setIsLoading(false);
+     }
+   };
+   getData();
+ }, []);
+
+ // If loading, display a loading screen or spinner
+ if (isLoading) {
+   return (
+     <div className="flex items-center justify-center h-64">
+       <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500" />
+     </div>
+   );
+ }
   return (
     <div className="min-h-screen bg-neutral-900 text-neutral-100">
       {/* Header */}
