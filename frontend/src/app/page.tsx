@@ -181,7 +181,7 @@ const Home: NextPage = () => {
             </div>
 
             <p className="text-sm text-neutral-500">
-              Made with 💚 by a Student Developer
+              Made with 💚 by Arsh Ahmad
             </p>
           </div>
         </div>
