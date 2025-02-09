@@ -107,7 +107,6 @@ const AuthPage: NextPage = () => {
     } catch (err) {
       setError("Network error: " + err);
     }
-    console.error(error)
     setIsLoading(false);
   };
 
