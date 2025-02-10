@@ -178,7 +178,7 @@ const AuthPage: NextPage = () => {
             >
               Welcome to Fridge Pilot
             </motion.h2>
-            <p className="text-neutral-400">
+            <p className="text-neutral-200 mb-2">
               {isLogin ? "Sign in to your account" : "Create your account"}
             </p>
           </div>
@@ -305,7 +305,17 @@ const AuthPage: NextPage = () => {
               </AnimatePresence>
             </motion.button>
           </form>
-
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className={`${
+              isGuestLoading || isLoading
+                ? `text-xs text-neutral-200 animate-pulse`
+                : `text-xs text-neutral-500`
+            } italic text-center pb-5`}
+          >
+            Note: Login/Signup may take a while due to free tier hosting
+          </motion.div>
           {/* Toggle Auth Mode */}
           <div className="border-t border-neutral-700/50 p-8">
             <p className="text-neutral-400 text-center">
