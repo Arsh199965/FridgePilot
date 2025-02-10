@@ -64,6 +64,7 @@ const AuthPage: NextPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [isGuestLoading, setIsGuestLoading] = useState(false);
   const router = useRouter();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,7 +75,7 @@ const AuthPage: NextPage = () => {
     try {
       const endpoint = isLogin
         ? `${baseUrl}/auth/login`
-        : `${baseUrl}/auth/signup`
+        : `${baseUrl}/auth/signup`;
       const body = {
         user_name: name,
         user_id: email,
@@ -86,9 +87,9 @@ const AuthPage: NextPage = () => {
         body: JSON.stringify(body),
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json",
+          Accept: "application/json",
         },
-      })
+      });
       const data = await response.json();
 
       if (response.ok) {
@@ -98,7 +99,9 @@ const AuthPage: NextPage = () => {
           router.push("/pantry");
         } else {
           setSuccess(true);
+          localStorage.setItem("user_id", email);
           toast.success("Signup Successful");
+          router.push("/pantry");
         }
       } else {
         setError(data.message || "Request failed");
@@ -110,7 +113,46 @@ const AuthPage: NextPage = () => {
     }
     setIsLoading(false);
   };
-
+  
+  const handleGuestLogin = async () => {
+    setIsGuestLoading(true);
+    try {
+      const body = {
+        user_name: "Guest",
+        user_id: "guest_user",
+        password: "guest123",
+      };
+      localStorage.removeItem("user_id");
+      await fetch(`${baseUrl}/others/delete-profile?user_id=guest_user `, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      // signing up the guest user
+      const response = await fetch(`${baseUrl}/auth/signup`, {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+      const data = await response.json();
+      if (response.ok) {
+        localStorage.setItem("user_id", "guest_user");
+        router.push("/pantry");
+      } else {
+        setError(data.message || "Request failed");
+        toast.error(data.message || "Request failed");
+      }
+    } catch (err) {
+      setError("Network error: " + err);
+      console.error(error);
+    } finally {
+      setIsGuestLoading(false);
+    }
+  };
   return (
     <div className="min-h-screen bg-neutral-900 text-neutral-100 flex items-center justify-center p-4">
       <Toaster />
@@ -141,17 +183,47 @@ const AuthPage: NextPage = () => {
             </p>
           </div>
 
-          {/* Social Login */}
-          <div className="px-8 flex flex-col justify-center items-center gap-4 mb-6">
-            <button className="px-8 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 py-3 rounded-lg flex items-center justify-center gap-3 transition-colors">
-              <GoogleIcon size={18} />
-              Google
-            </button>
-            <p className="text-xs -mt-3 font-light text-neutral-400">
-              Coming Soon
-            </p>
+          {/* Social Login and Guest Login Section */}
+          <div className="px-8 mb-6">
+            <div className="flex gap-4 w-full">
+              {/* Google Login */}
+              <button
+                disabled
+                className="flex-1 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 py-3 rounded-lg flex items-center justify-center gap-2 transition-colors relative"
+              >
+                <GoogleIcon size={18} />
+                <span>Google</span>
+                <div className="absolute -bottom-6 left-0 right-0 text-center">
+                  <span className="text-xs font-light text-neutral-400">
+                    Coming Soon
+                  </span>
+                </div>
+              </button>
+
+              {/* Guest Login */}
+              <motion.button
+                whileTap={{ scale: 0.98 }}
+                onClick={handleGuestLogin}
+                disabled={isGuestLoading}
+                className="flex-1 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 py-3 rounded-lg flex items-center justify-center gap-2 transition-colors"
+              >
+                {isGuestLoading ? (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="w-5 h-5 border-2 border-neutral-300/30 border-t-neutral-300 rounded-full animate-spin"
+                  />
+                ) : (
+                  <>
+                    <User size={18} className="opacity-70" />
+                    <span>Login as Guest</span>
+                  </>
+                )}
+              </motion.button>
+            </div>
           </div>
 
+          {/* Divider */}
           <div className="px-8 flex items-center gap-4 mb-6">
             <div className="flex-1 h-px bg-neutral-700"></div>
             <span className="text-neutral-500 text-sm">or continue with</span>

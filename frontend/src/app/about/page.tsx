@@ -29,7 +29,7 @@ const AboutPage = () => {
     "TypeScript",
     "Python",
     "Flask",
-    "SQLite",
+    "PostgreSQL",
     "Framer Motion",
     "TailwindCSS",
     "Machine Learning",
